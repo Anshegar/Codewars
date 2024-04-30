@@ -5,24 +5,37 @@ class Solution:
         # Сортируем входной список для группировки одинаковых элементов
         nums.sort()
         result = []
-        self.backtrack(nums, [], result, set())
+        self.backtrack(nums, (), result, frozenset())
         return result
 
     def backtrack(self, nums, current, result, used):
          # Если текущая перестановка достигла нужной длины, добавляем ее в результат
         if len(current) == len(nums):
             result.append(current[:])
+            # result_list = list(result)
+            # result_list.append(current[:])
+            # result = tuple(result_list)
             return
 
         for i in range(len(nums)):
             # Проверяем, использовался ли индекс i или является ли он дубликатом предыдущего элемента
             if i in used or (i > 0 and nums[i] == nums[i-1] and i-1 not in used):
                 continue
-            used.add(i)                                 # Добавляем индекс в использованные
-            current.append(nums[i])                     # Добавляем элемент в текущую перестановку
+
+
+            used = used.union({i})                                 # Добавляем индекс в использованные
+
+
+            print("-----------------------------------------------------------",current,nums[i])
+            current +=(nums[i],)                     # Добавляем элемент в текущую перестановку
             self.backtrack(nums, current, result, used) # Рекурсивный вызов backtrack
-            used.remove(i)                              # Удаляем индекс из использованных
-            current.pop()                               # Удаляем элемент из текущей перестановки
+
+            
+            used = used.difference({i})                              # Удаляем индекс из использованных
+            
+            current_list = list(current)
+            current_list.pop()                               # Удаляем элемент из текущей перестановки
+            current = tuple(current_list)
 
 
 s = Solution()
