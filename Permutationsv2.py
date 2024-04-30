@@ -21,18 +21,10 @@ class Solution:
             # Проверяем, использовался ли индекс i или является ли он дубликатом предыдущего элемента
             if i in used or (i > 0 and nums[i] == nums[i-1] and i-1 not in used):
                 continue
-
-
             used = used.union({i})                                 # Добавляем индекс в использованные
-
-
-            print("-----------------------------------------------------------",current,nums[i])
             current +=(nums[i],)                     # Добавляем элемент в текущую перестановку
             self.backtrack(nums, current, result, used) # Рекурсивный вызов backtrack
-
-            
             used = used.difference({i})                              # Удаляем индекс из использованных
-            
             current_list = list(current)
             current_list.pop()                               # Удаляем элемент из текущей перестановки
             current = tuple(current_list)
